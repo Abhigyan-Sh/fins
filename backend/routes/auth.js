@@ -1,6 +1,10 @@
 import express from 'express'
 import User from '../mongoDB/models/User.js'
+import Token from '../mongoDB/models/Token.js'
 import bcrypt from 'bcrypt'
+import crypto from 'crypto'
+import sendEmail from '../sendEmail.js'
+
 const router = express.Router()
 
 router.post('/register', async (req, res) => {
@@ -12,7 +16,17 @@ router.post('/register', async (req, res) => {
     others.password = hashedPass
     // creating data on DB, sending back the response
     const formData = await User.create(others)
-    if (formData) return res.status(201).json(formData)
+
+    const token = await Token.create({
+        userId: formData._id,
+        token: crypto.randomBytes(32).toString('hex'),
+    })
+    // to send email now here
+    const url = `http://localhost:3000/users/${token?.userId}/verify/${token?.token}`
+
+    sendEmail(formData.email, `Verify Mail 😄 ${formData.username}`,url)
+    res.status(200).send('email sent successfully ! 😄')
+    // if (formData) return res.status(201).json(formData)
 })
 
 router.post('/login', async (req, res) => {
