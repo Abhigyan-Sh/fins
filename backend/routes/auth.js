@@ -4,6 +4,7 @@ import Token from '../mongoDB/models/Token.js'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import sendEmail from '../sendEmail.js'
+import jwt from 'jsonwebtoken'
 
 const router = express.Router()
 
@@ -23,22 +24,27 @@ router.post('/register', async (req, res) => {
     })
     // to send email now here
     const url = `http://localhost:3000/users/${token?.userId}/verify/${token?.token}`
-
     sendEmail(formData.email, `Verify Mail 😄 ${formData.username}`,url)
     res.status(200).send('email sent successfully ! 😄')
-    // if (formData) return res.status(201).json(formData)
 })
 
 router.post('/login', async (req, res) => {
     try {
+        // check user existence
         const user = await User.findOne({username: req.body.username})
-        !user && res.status(400).send('wrong credentials1')
-
+        !user && res.status(400).send('wrong credentials')
+        // compare password
         const validate = await bcrypt.compare(req.body.password, user.password) // order matters
-        !validate && res.status(400).send('wrong credentials2')
-
+        !validate && res.status(400).send('wrong credentials')
+        // verified : true/false
+        !user.verified && res.status(403).send('check your mailbox')
+        
         const {password, ...others} = user._doc
-        res.status(200).json(others)
+        
+        // signing token 'others'
+        const signed_user = jwt.sign(others, process.env.ACCESS_TOKEN, {expiresIn: "1d"})
+        res.status(200).json(signed_user)
+        // res.status(200).json(others)
     } catch(err) {
         res.status(500).send(err)
     }
