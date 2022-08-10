@@ -1,0 +1,8 @@
+hz_line::before {
+    content: '';
+    background-color: grey;
+    width: 100%;
+    position: absolute;
+    height: 1px;
+
+}
