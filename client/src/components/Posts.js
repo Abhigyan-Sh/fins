@@ -1,8 +1,14 @@
 import React from 'react'
+import Post from './Post.js'
 
-const Posts = () => {
+const Posts = ({posts}) => {
   return (
-    <div>Posts</div>
+    <div>
+      {posts.map((p, i) => (
+        <Post key={i} post= {p}/>
+        )
+      )}
+    </div>
   )
 }
 
