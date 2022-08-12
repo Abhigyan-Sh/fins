@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* googleapi fonts */
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;1,200&family=Poppins:ital,wght@0,100;0,200;1,100&family=Quicksand:wght@300;400&family=Silkscreen&display=swap');
+/* downloaded fonts */
+@layer base {
+    @font-face {
+        font-family: 'Charter';
+        font-weight: 500;
+        src: url('../public/fonts/charter/otf/Charter Regular.otf') format('otf')
+    }
+    /* how to put default font (not working) */
+    html {
+        font-family: Quicksand;
+    }
+}

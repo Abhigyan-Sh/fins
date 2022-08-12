@@ -16,6 +16,9 @@ app.use(express.json())
 app.use(cors())
 app.use(express.urlencoded({extended: true}))
 
+app.use('/image',express.static('assets/profilePic'))
+app.use('/postImage',express.static('assets/postPic'))
+
 app.get('/', (req, res) => {
     res.status(200).send("hi! it's working")
 })
@@ -26,10 +29,11 @@ app.use('/users', verify)
 app.use('/verify_user', verify_user)
 app.use('/posts', post)
 app.use('/user', user)
-// 
+
+/* was using this to display image on postman
 app.get('/userPic/:imgs', async (req, res) => {
     res.download('./assets/images/' + req.params.imgs)
-})
+}) */
 
 app.listen(PORT, () => {
     console.log('server is listening..')

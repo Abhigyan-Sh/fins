@@ -24,19 +24,11 @@ decoration-grey-500
 are different things
 
 ### how to display image in frontend from backend
-- from blog.controller.js
-const config = require('../config')
-var multer = require('multer')
-
-exports.getFile = function (req, res) {
-    res.download('./blog/uploads/' + req.params.path)
-}
-
-- from blog.routes.js
-app.get('/blog/getFile/:path', blog.getFile)
-
-- request
-http://localhost:8080/blog/getFile/img.png
+(in server.js)
+app.use('/image',express.static('assets/profilePic'))
+- path to be accessed from frontend, location of folder containing pic
+(in frontend.js)
+http://localhost:8000/image/user_profile.png
 
 ### upload image to node server
 
@@ -87,4 +79,53 @@ extend: {
 ### 
 study the grids of medium.com
 
+### using downloaded fonts
+- these are of two types .otf(open type font) and .ttf(true type font) with the former one better albeit there is not much of a difference when it comes for a normal day to day user.
+- - for google fonts just use embed with html option and you are good enough to go further implementing it,
+(in index.css)
+- - @layer base {
+    h1, h2 {
+        font-family: 'Lora, serif';
+    }
+}
+(so yeah! this is how you add css even when you are using tailwindcss)
+also @import can be pasted in index.css
+
+or instead what could be even better is:
+(in tailwind.config.js)
+theme: {
+    extend: {
+        fontFamily: {
+            'lora': 'Lora, serif
+        }
+    }
+}
+then use, 'font-lora'
+<!--  -->
+- now comes using ttf and otf
+- - drag the directory having fonts to public folder of vite
+- - (in index.css)
+@layer base {
+    @font-face {
+        font-family: 'Myfont';
+        font-weight: 700;
+        font-style: italic;
+        src: url('./path to font-file.otf') format('otf'), 
+        url('./path to font-file.otf') format('otf')
+    }
+    @font-face {
+        font-family: 'Charter';
+        font-weight: 500;
+        src: url('../public/fonts/charter/otf/Charter Regular.otf') format('otf')
+    }
+}
+(in tailwind.config.js)
+theme: {
+    fontFamily: {
+      'charter': ['Charter']
+    }
+}
+
+- - put google api fonts in one import here i have done 3 its nothing super easy
+### don't write image, photo or picture in alt value as you need not to..
 ### 

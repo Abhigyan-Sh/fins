@@ -5,7 +5,7 @@ import { IoIosLogIn,IoMdNotificationsOutline } from 'react-icons/io';
 import { FiSettings } from 'react-icons/fi'
 import { BsBookmark } from 'react-icons/bs'
 import { IconContext } from 'react-icons'
-import axios from 'axios';
+/* import axios from 'axios'; */
 
 const Navbar = () => {
   const style = {
@@ -13,21 +13,24 @@ const Navbar = () => {
     "logo": "w-24 mt-9",
     "navbar_container": "border-r border-slate-600 h-screen w-24 flex flex-col justify-between items-center overflow-hidden",
     "navIcons": "flex flex-col justify-between items-center gap-y-16",
-    "writeIcon": "before:content-[''] before:ml-0.5 before:mb-10 before:w-full h-px bg-zinc-300 fa-solid fa-feather self-center text-gray-500 text-2xl",
+    "writeIcon": "before:content-[''] before:ml-0.5 before:mb-10 before:w-full h-px bg-zinc-300 fa-solid fa-feather self-center text-gray-500 text-2xl mb-8",
+    'profile_icon':'rounded-full w-12 h-12 mb-8'
   }
-  /* const user = {}
-  const PF = 'http://localhost:8000/assets/images/'
+  const user = {}
+  const PF = 'http://localhost:8000/image/'
   if (!user.profilePic) {
     user.profilePic = 'user_profile.png'
-  } */
- /*  const [userIcon, setUserIcon] = useState('')
+  }
+  /* // BELOW CODE IS FOR TESTING PURPOSE ONLY 
+  const [userIcon, setUserIcon] = useState('')
   useEffect(() => {
     const getUserImg = async () => {
       const res = await axios.get(`/userPic/${user.profilePic}`)
       setUserIcon(res)
     }
     getUserImg()
-  }, []) */
+  }, [])
+  // TILL HERE TESTING EXISTED */
   return (
     <div className= {style.navbar_container}>
       <img src= {logo} alt='logo- passion fruit' className= {style.logo}/>
@@ -50,9 +53,7 @@ const Navbar = () => {
           register
         </button>
       </div>
-      <div>
-        {/* <img src= {userIcon} alt='pic'/> */}
-      </div>
+      <img src= {PF + user.profilePic} className={style.profile_icon} alt='profile icon'/>
     </div>
   )
 }
