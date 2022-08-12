@@ -21,6 +21,21 @@ const UserSchema = new Schema(
         type: String,
         default: "",
       },
+      // 
+      profession: {
+        type: String,
+        required: false
+      },
+      // 
+      institute: {
+        type: String,
+        required: false
+      },
+      // 
+      aboutMe: {
+        type: String,
+        required: false
+      },
       verified: { 
         type: Boolean, 
         default: false 

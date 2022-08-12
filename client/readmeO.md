@@ -43,8 +43,8 @@ export default instance
 
 ### division in ratios
 using grid it was down in portfolio proj.
-`grid-template-columns: repeat(2, 1fr)`
-
+`grid-template-columns: repeat(2, 1fr)` with grid
+`basis-9/12 basis-3/12` with flexbox
 ### 
   "proxy": "http://localhost:5000/api/"
 or 
@@ -128,4 +128,20 @@ theme: {
 
 - - put google api fonts in one import here i have done 3 its nothing super easy
 ### don't write image, photo or picture in alt value as you need not to..
-### 
+### sidebar
+<!-- 'from our community'
+Jim maella
+blog...
+
+clia
+blog.. -->
+
+'about me'
+ <!-- image -->
+ about me
+
+'genres to read from..'
+all categories
+
+'FOLLOW ME ON'
+twitter github linkedin abhigyanshukla.com
