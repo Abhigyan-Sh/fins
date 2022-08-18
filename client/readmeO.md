@@ -145,3 +145,36 @@ all categories
 
 'FOLLOW ME ON'
 twitter github linkedin abhigyanshukla.com
+
+### these `` template strings are a part of javascript not DOM so enter in js mode first before using them ``.
+
+import { useLocation } from 'react-router-dom'
+
+didn't installed react-router-dom
+
+### to bring back
+
+(in Home.js) removed search 
+(in Sidebar.js) removed 
+
+
+instead of padding for a single word line height can be used for the same
+
+### how to edit config file 
+
+### how to add link of another website
+
+
+### <Redirect to="/" />
+{/* If any route mismatches the upper 
+          route endpoints then, redirect triggers 
+          and redirects app to home component with to="/" */}
+
+### &nbsp; is non-breaking space
+
+### Input elements should have autocomplete attributes (suggested: "current-password"
+autoComplete = {true}
+
+### window.location.replace('/login') or location.replace("https://www.w3schools.com") both correct syntax..
+
+### 

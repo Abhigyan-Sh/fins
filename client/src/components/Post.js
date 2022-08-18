@@ -5,7 +5,7 @@ import { IconContext } from 'react-icons/lib'
 
 const Post = ({post}) => {
   const styles = {
-    'post_outerCover': 'border-y-1 pt-10 flex justify-center',
+    'post_outerCover': 'border-y-1 pt-10 ml-32 mr-32 flex justify-center',
     'post_innerCover': 'w-11/12',
     'post_header': 'flex items-center',
     'post_header_inner': 'flex items-center justify-between ml-1',
@@ -18,7 +18,7 @@ const Post = ({post}) => {
     'post_desc': 'text-base cursor-pointer',
     'body_footer': 'flex items-center py-4',
     'categories': 'flex mr-2',
-    'category': 'px-2 bg-zinc-200 m-1 rounded-xl cursor-pointer',
+    'category': 'px-2 py-1 bg-txt text-col-txt m-1 rounded-xl cursor-pointer font-medium',
     'userTools': 'flex items-center ml-12 gap-x-6',
     'firstHalf_body': 'basis-9/12',
     'secondHalf_body': 'basis-3/12',
@@ -53,8 +53,8 @@ const Post = ({post}) => {
             {/* body footer */}
             <div className={styles.body_footer}>
               <div className={styles.categories}>
-                {post.categories.map((e) => {
-                  return (<div className={styles.category}>{e}</div>)
+                {post.categories.map((e, i) => {
+                  return (<div className={styles.category} key={i}>{e}</div>)
                 })}
               </div>
               <p className={styles.dull_text}>3 min. read</p>

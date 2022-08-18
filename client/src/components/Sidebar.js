@@ -2,43 +2,66 @@ import React from 'react'
 import {BsLinkedin, BsGithub, BsTwitter} from 'react-icons/bs'
 import { FaMeteor } from 'react-icons/fa'
 import { IconContext } from 'react-icons/lib'
+import { Link } from 'react-router-dom'
 
 const Sidebar = () => {
+  const styles = {
+    sidebar: 'p-8 border-l-1',
+    upMargin: 'mt-32',
+    container: 'tracking-wide mb-12',
+    header: 'text-xl text-zinc-700 font-semibold mb-3',
+    msg: 'ml-2 text-zinc-500',
+    catContainer: 'ml-2 flex flex-wrap',
+    category: 'px-2 bg-txt text-col-txt leading-5 text-sm font-semibold mr-2 rounded-full cursor-pointer w-fit py-2 px-4 mb-2',
+    iconContainer: 'ml-2 flex justify-around items-center w-6/12'
+  }
+  const categories = ['Food', 'Travel', 'Health and Fitness', 'Fashion and beauty', 'Parenting', 'Music', 'Art and Design', 'Book and Writing', 'Sports', 'Movie', 'GeoPolitical']
   return (
-    <div>
-      <div>
-        <p>about us</p>
-        <p>hi! folks,<br/>
+    <div className= {styles.sidebar}>
+      {/* for deletion later */}
+      <div className={styles.upMargin}></div>
+      {/* about_us */}
+      <div className= {styles.container}>
+        <p className={styles.header}>About Us</p>
+        <p className={styles.msg}>hi! folks 🖐️,<br/>
           this slate is for you to share your feelings, thoughts about whatever you come across.
         </p>
       </div>
-      <div>
-        <p>genres to read from..</p>
-        <div>
-          {/* make an array */}
-          <p>Food</p>
-          <p>Travel</p>
-          <p>Health and Fitness</p>
-          <p>LifeStyle</p>
-          <p>Fashion and beauty</p>
-          <p>Parenting</p>
-          <p>Music</p>
-          <p>Art and Design</p>
-          <p>Book and Writing</p>
-          <p>Sports</p>
-          <p>Movie</p>
-          <p>GeoPolitical</p>
+      {/* genres to choose */}
+      <div className= {styles.container}>
+        <p className={styles.header}>genres to read from..</p>
+        <div className= {styles.catContainer}>
+          {categories.map((e, i) => (
+              <Link to={`/?cat=${e}`} key={i}>
+                <div className={styles.category}>{e}</div>
+              </Link>
+          ))}
         </div>
       </div>
-      <div>
-        <p>FOLLOW ME ON</p>
-        <div>
-          <IconContext.Provider value={{color: 'grey', size: '25px'}}>
-            <BsLinkedin/>
-            <BsGithub/>
-            <BsTwitter/>
-            <FaMeteor/>
-          </IconContext.Provider>
+      {/* Follow me on... */}
+      <div className= {styles.container}>
+        <p className= {styles.header}>follow me on..</p>
+        <div className= {styles.iconContainer}>
+          <Link to='https://www.linkedin.com/in/abhigyan-shukla-6b0088224/'>
+            <IconContext.Provider value={{color: '#0A66C2', size: '25px'}}>
+              <BsLinkedin/>
+            </IconContext.Provider>
+          </Link>
+          <Link to='https://github.com/Abhigyan-Sh'>
+            <IconContext.Provider value={{color: 'black', size: '25px'}}>
+              <BsGithub/>
+            </IconContext.Provider>
+          </Link>
+          <Link to='https://twitter.com/pryansh_sh'>
+            <IconContext.Provider value={{color: '#00acee', size: '25px'}}>
+              <BsTwitter/>
+            </IconContext.Provider>
+          </Link>
+          <Link to=''>
+            <IconContext.Provider value={{color: 'black', size: '25px'}}>
+              <FaMeteor/>
+            </IconContext.Provider>
+          </Link>
         </div>
       </div>
     </div>

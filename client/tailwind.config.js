@@ -16,8 +16,12 @@ module.exports = {
     },
     extend: {
       gridTemplateColumns: {
-        'sky': '14%  60% 26%'
-      }
+        'sky': '7%  67% 26%'
+      },
+      colors: {
+        'txt': '#f2f2f2',
+        'col-txt': '#292929'
+      },
     },
   },
   plugins: [],
