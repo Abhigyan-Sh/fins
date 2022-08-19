@@ -13,6 +13,7 @@ module.exports = {
       'silkscreen': ['Silkscreen', 'cursive'],
       'quicksand': ['Quicksand', 'sans-serif'],
       'karla': ['Karla', 'sans-serif'],
+      'realBold': ['IBM Plex Sans'],
     },
     extend: {
       gridTemplateColumns: {
@@ -20,7 +21,8 @@ module.exports = {
       },
       colors: {
         'txt': '#f2f2f2',
-        'col-txt': '#292929'
+        'col-txt': '#292929',
+        'medium-red': '#e83900',
       },
     },
   },

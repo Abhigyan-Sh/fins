@@ -178,3 +178,32 @@ autoComplete = {true}
 ### window.location.replace('/login') or location.replace("https://www.w3schools.com") both correct syntax..
 
 ### 
+uselocation() returns an object
+pathname and search are its keys thus obj.method or obj.key which equals some value
+so either extract them explicitly or go by doing obj.key 
+
+### 
+- useEffect()
+  - const fetchPost() = async() => {}
+    - try {} catch() {}
+
+### 
+username 
+profilePic 
+postPic 
+title 
+categories 
+desc
+
+
+### custom fonts
+index.css and tailwind.config.js
+
+### 
+.replace('/') places any url kept within after home pg.
+
+### 
+why this right,
+onClick={()=> {setUpdateMode(true)}
+but this below one is not,
+onClick={setUpdateMode(true)}

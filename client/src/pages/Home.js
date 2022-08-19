@@ -22,9 +22,9 @@ const Home = () => {
   }, [search])
   return (
     <div className='grid grid-cols-sky'>
-        <Navbar className=''/>
-        <Posts className='' posts= {posts}/>
-        <Sidebar className=''/>
+        <Navbar/>
+        <Posts posts= {posts}/>
+        <Sidebar/>
     </div>
   )
 }

@@ -7,7 +7,7 @@ import Settings from './pages/Settings.js'
 import Single from './pages/Single.js'
 
 function App() {
-  const user = false
+  const user = true
   return (
     <BrowserRouter>
       <Routes>
