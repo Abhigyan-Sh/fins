@@ -207,3 +207,19 @@ why this right,
 onClick={()=> {setUpdateMode(true)}
 but this below one is not,
 onClick={setUpdateMode(true)}
+
+### how to make one section scrollable while others not on webpage
+`sticky top-0`, `h-screen` to Navbar.js ,div container
+
+### 
+check presence of empty string for category
+###
+if onClick has parameter 
+onClick={()=>{addToCategories(i)}}
+
+if onClick has no parameters
+onClick={addToCategories}
+
+### 
+be careful at keys of postSchema
+### 

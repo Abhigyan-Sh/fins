@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 const Sidebar = () => {
   const styles = {
-    sidebar: 'p-8 border-l-1',
+    sidebar: 'p-8 overflow-hidden border-l-1 sticky top-0 h-screen',
     upMargin: 'mt-32',
     container: 'tracking-wide mb-12',
     header: 'text-xl text-zinc-700 font-semibold mb-3',
@@ -42,26 +42,26 @@ const Sidebar = () => {
       <div className= {styles.container}>
         <p className= {styles.header}>follow me on..</p>
         <div className= {styles.iconContainer}>
-          <Link to='https://www.linkedin.com/in/abhigyan-shukla-6b0088224/'>
+          <a href='https://www.linkedin.com/in/abhigyan-shukla-6b0088224/' target='_blank'>
             <IconContext.Provider value={{color: '#0A66C2', size: '25px'}}>
               <BsLinkedin/>
             </IconContext.Provider>
-          </Link>
-          <Link to='https://github.com/Abhigyan-Sh'>
+          </a>
+          <a href='https://github.com/Abhigyan-Sh' target='_blank'>
             <IconContext.Provider value={{color: 'black', size: '25px'}}>
               <BsGithub/>
             </IconContext.Provider>
-          </Link>
-          <Link to='https://twitter.com/pryansh_sh'>
+          </a>
+          <a href='https://twitter.com/pryansh_sh' target='_blank'>
             <IconContext.Provider value={{color: '#00acee', size: '25px'}}>
               <BsTwitter/>
             </IconContext.Provider>
-          </Link>
-          <Link to=''>
+          </a>
+          <a href='' target='_blank'>
             <IconContext.Provider value={{color: 'black', size: '25px'}}>
               <FaMeteor/>
             </IconContext.Provider>
-          </Link>
+          </a>
         </div>
       </div>
     </div>

@@ -28,7 +28,7 @@ const SinglePost = () => {
         heading: 'flex items-center justify-between',
         iconUpdateDeleteCont: 'flex',
         iconUpdateDelete: 'w-5 h-5 ml-3 cursor-pointer',
-        lrgTxt: 'text-3xl tracking-tighter leading-10 my-5 text-col-txt font-realBold',
+        lrgTxt: 'text-3xl tracking-tighter leading-10 my-5 text-col-txt font-silkscreen',
         postImg: 'mb-5',
         normTxt: 'mb-16 ml-2 text-xl font-normal text-col-txt font-quicksand leading-7',
         inputTitle: 'text-3xl tracking-tighter leading-10 my-5 text-col-txt font-silkscreen border-2 border-green-500 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 bg-zinc-300',

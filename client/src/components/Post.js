@@ -2,6 +2,7 @@ import { BsBookmarkHeart } from 'react-icons/bs'
 import { MdHideSource } from 'react-icons/md'
 import { CgOptions } from 'react-icons/cg'
 import { IconContext } from 'react-icons/lib'
+import { Link } from 'react-router-dom'
 
 const Post = ({post}) => {
   const styles = {
@@ -45,38 +46,42 @@ const Post = ({post}) => {
           </div>
         </div>
         {/* post Body */}
-        <div className= {styles.post_body}>
-          {/* first-half Body */}
-          <div className= {styles.firstHalf_body}>
-            <h2 className={styles.post_title}>{post.title}</h2>
-            <p className={styles.post_desc}>{post.desc.slice(0,230) + '..'}</p>
-            {/* body footer */}
-            <div className={styles.body_footer}>
-              <div className={styles.categories}>
-                {post.categories.map((e, i) => {
-                  return (<div className={styles.category} key={i}>{e}</div>)
-                })}
-              </div>
-              <p className={styles.dull_text}>3 min. read</p>
-              <div className={styles.dull_dot}></div>
-              {/* <p className={styles.dull_text}>selected for you!</p> */}
-              {/* bookmark, hide, options */}
-              <div className={styles.userTools}>
-                <IconContext.Provider value= {{color: 'rgb(64, 64, 64)', size: '22px'}}>
-                  <BsBookmarkHeart className={styles.pointer}/>
-                  <MdHideSource className={styles.pointer}/>
-                  <CgOptions className={styles.pointer}/>
-                </IconContext.Provider>
+          <div className= {styles.post_body}>
+            {/* first-half Body */}
+            <div className= {styles.firstHalf_body}>
+              <Link to={`/post/${post._id}`}>
+                <h2 className={styles.post_title}>{post.title}</h2>
+                <p className={styles.post_desc}>{post.desc.slice(0,230) + '..'}</p>
+              </Link>
+              {/* body footer */}
+              <div className={styles.body_footer}>
+                <div className={styles.categories}>
+                  {post.categories.map((e, i) => {
+                    return (<div className={styles.category} key={i}>{e}</div>)
+                  })}
+                </div>
+                <p className={styles.dull_text}>3 min. read</p>
+                <div className={styles.dull_dot}></div>
+                {/* <p className={styles.dull_text}>selected for you!</p> */}
+                {/* bookmark, hide, options */}
+                <div className={styles.userTools}>
+                  <IconContext.Provider value= {{color: 'rgb(64, 64, 64)', size: '22px'}}>
+                    <BsBookmarkHeart className={styles.pointer}/>
+                    <MdHideSource className={styles.pointer}/>
+                    <CgOptions className={styles.pointer}/>
+                  </IconContext.Provider>
+                </div>
               </div>
             </div>
+            {/* second half Body */}
+            <Link to={`/post/${post._id}`}>
+              <div className={styles.secondHalf_body}>
+                <div className={styles.postPicContainer}>
+                  <img src={PF2 + post.postPic} alt='' className={styles.postImage}/>
+                </div>
+              </div>
+            </Link>
           </div>
-          {/* second half Body */}
-          <div className={styles.secondHalf_body}>
-            <div className={styles.postPicContainer}>
-              <img src={PF2 + post.postPic} alt='' className={styles.postImage}/>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   )
