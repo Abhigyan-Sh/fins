@@ -31,7 +31,10 @@ const UserSchema = new Schema(
         type: String,
         required: false
       },
-      // 
+      lives_in: {
+        type: String,
+        required: false
+      },
       aboutMe: {
         type: String,
         required: false

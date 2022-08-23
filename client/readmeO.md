@@ -284,4 +284,13 @@ useReducer()
 
 ### 
 how to change link with clicking on a button without useState and without creating function but rather can it be done using callback function if yes then how?
+### To do
+summit empty '' for profession, etc.
+fill clicked icons
+### 
+
+import { IconContext } from react-icons/lib'
+<IconContext.Provider value= {size:'20', color:'red'}}>
+  <HiOutlineLocationMarker/>
+</IconContext.Provider>
 ### 
