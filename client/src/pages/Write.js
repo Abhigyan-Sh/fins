@@ -1,6 +1,7 @@
-import React, { useState} from 'react'
-import Header from '../components/Header.js'
+import React, { useState , useContext } from 'react'
 import { BsCloudUpload } from 'react-icons/bs'
+import Header from '../components/Header.js'
+import { NoteContext } from '../context/NoteContext.js'
 
 const Write = () => {
   const styles = {
@@ -18,9 +19,8 @@ const Write = () => {
   const [postPic, setPostPic] = useState('')
   const [categories, setCategories] = useState([])
   // TO BE TAKEN
-  const user = {
-    username: 'pryansh_sh'
-  }
+  const { user } = useContext(NoteContext)
+  // Till here 
   const postProps = {
     title, 
     desc, 

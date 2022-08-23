@@ -222,4 +222,66 @@ onClick={addToCategories}
 
 ### 
 be careful at keys of postSchema
+
+### 
+    <!-- _id:'62fe80565ade6124a2f2e2f2', -->
+    <!-- email:"pryanshukla0321@gmail.com", -->
+    <!-- username:"pryansh", -->
+    
+    <!-- profilePic:"", -->
+    <!-- profession:"dev", -->
+    <!-- institute:"college student", -->
+    <!-- aboutMe: "", -->
+    <!-- lives_in: "", -->
+
+    <!-- verified:true, -->
+    <!-- createdAt:'2022-08-18T18:09:26.080+00:00', -->
+    <!-- updatedAt:'2022-08-18T18:10:03.460+00:00' -->
+
+### 
+to make Settings, AuthenticateModal
+### createContext and useContext
+- (in NoteContext.js)
+import { createContext } from 'react'
+
+export const NoteContext = createContext()
+
+export const NoteState = ({children}) => {
+    const state = {
+        name: 'michael',
+        lives_in: 'Los Santos',
+    }
+    return (
+        <NoteContext.Provider value={state}>
+            {children}
+        </NoteContext.Provider>
+    )
+}
+
+- in App.js
+import { NoteState } from './context/NoteContext.js'
+wrap your app with 
+<NoteState></NoteState>
+
+- in Write.js
+import { useContext } from 'react'
+import { NoteContext } from '../context/NoteContext.js'
+
+const a = useContext(NoteContext)
+console.log(a.name)
+
+### used hooks
+rules: 
+- Hooks can only be called inside React function components.
+- Hooks can only be called at the top level of a component.
+- Hooks cannot be conditional
+
+useState()
+useEffect(()=> {},[])
+createContext() n useContext()
+useRef()
+useReducer()
+
+### 
+how to change link with clicking on a button without useState and without creating function but rather can it be done using callback function if yes then how?
 ### 

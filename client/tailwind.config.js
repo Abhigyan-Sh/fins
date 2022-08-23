@@ -23,7 +23,11 @@ module.exports = {
         'txt': '#f2f2f2',
         'col-txt': '#292929',
         'medium-red': '#e83900',
+        'modalBg': '#c8c8c8'
       },
+      boxShadow: {
+        'custom': 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+      }
     },
   },
   plugins: [],

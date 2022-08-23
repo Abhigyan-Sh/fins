@@ -1,66 +1,75 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { RiLockPasswordLine } from 'react-icons/ri'
 import { AiOutlineMail } from 'react-icons/ai'
 import axios from '../axios.js'
+import { NoteContext } from '../context/NoteContext.js'
 
 const Login = () => {
-      /* to make */
-  const user = {}
-      /* till here */
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const handleSubmit = async () => {
+    // MADE LATER FROM 
+    const context = useContext(NoteContext)
+    // TILL HERE
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const handleSubmit = async (e) => {
     try {
-      const res = await axios.post('/api_v1/auth/login', {
-        email,
-        password,
-      })
-      /* to make */
-      user = res
-      /* till here */
-    } catch (err) {
-      console.log(err)
+        e.preventDefault()
+        const res = await axios.post('/api_v1/auth/login', {
+          username,
+          password,
+        })
+        // BELOW CODE CHECKS 
+        context.setToken(res.data)
+        console.log(context.token)
+        console.log(res.data)
+        if (res.data) {
+            window.location.replace('http://localhost:3000/')
+        }
+      /* CHECKS TILL HERE */
+    }   catch (err) {
+        console.log(err)
     }
   }
   return (
-    <div class="bg-gradient-to-r from-red-500 to-red-300">
-      <div class="flex h-screen text-gray-900">
-        <div class="w-11/12 p-8 m-auto bg-white rounded-lg sm:w-96 bg-opacity-80 bg-clip-padding">
-            <div class="space-y-2">
+    <div className="bg-gradient-to-r from-red-500 to-red-300">
+      <div className="flex h-screen text-gray-900">
+        <div className="w-11/12 p-8 m-auto bg-white rounded-lg sm:w-96 bg-opacity-80 bg-clip-padding">
+            <div className="space-y-2">
                 <div>
-                    <h1 class="text-2xl font-medium text-center md:text-4xl font-roboto">Welcome Back!</h1>
+                    <h1 className="text-2xl font-medium text-center md:text-4xl font-roboto">Welcome Back!</h1>
                 </div>
                 <div>
-                    <div class="space-x-1 text-sm text-center md:text-base font-nunito">
+                    <div className="space-x-1 text-sm text-center md:text-base font-nunito">
                         <span>
                             New to SimpleForm?
                         </span>
                         {/* link to sign up pg */}
-                        <a class="font-semibold text-blue-500" href="http://localhost:3000/register">Sign Up</a>
+                        <a className="font-semibold text-blue-500" href="http://localhost:3000/register">Sign Up</a>
                     </div>
                 </div>
             </div>
-            <div class="mt-10">
-                <form class="text-base font-nunito">
-                    <div class="space-y-4">
-                        <div class="relative flex items-center">
-                          {/* email input */}
+            <div className="mt-10">
+                <form className="text-base font-nunito">
+                    <div className="space-y-4">
+                        <div className="relative flex items-center">
+                          {/* username input */}
                             <AiOutlineMail className='absolute w-5 h-5 ml-3 text-gray-400'/>
                             <input
-                                class="w-full p-2 pl-10 text-gray-800 placeholder-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                                type="email" 
-                                placeholder="Email" 
+                                className="w-full p-2 pl-10 text-gray-800 placeholder-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                type="text" 
+                                placeholder="Username"
+                                autoComplete="username" 
                                 required
-                                value= {email}
-                                onChange= {(e)=>{setEmail(e.target.value)}}/>
+                                value= {username}
+                                onChange= {(e)=>{setUsername(e.target.value)}}/>
                         </div>
-                        <div class="relative flex items-center">
+                        <div className="relative flex items-center">
                           {/* password input */}
                             <RiLockPasswordLine  className='absolute w-5 h-5 ml-3 text-gray-400'/>
                             <input
-                                class="w-full p-2 pl-10 text-gray-800 placeholder-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                className="w-full p-2 pl-10 text-gray-800 placeholder-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
                                 type="password" 
                                 placeholder="Password" 
+                                autoComplete="current-password"
                                 required
                                 value= {password}
                                 onChange= {(e)=>{setPassword(e.target.value)}}/>
@@ -73,17 +82,17 @@ const Login = () => {
                         </div> */}
                         <div>
                             <button
-                                class="w-full p-2 text-sm font-semibold text-center text-white transition duration-100 rounded-md md:text-lg font-nunito bg-gradient-to-r from-blue-600 to-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 hover:shadow-lg"
+                                className="w-full p-2 text-sm font-semibold text-center text-white transition duration-100 rounded-md md:text-lg font-nunito bg-gradient-to-r from-blue-600 to-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 hover:shadow-lg"
                                 onClick={handleSubmit}>
                                   Sign In</button>
                         </div>
                     </div>
                 </form>
-                <div class="mt-4">
+                <div className="mt-4">
                     <button
-                        class="w-full p-2 text-sm font-normal text-center transition duration-100 bg-white rounded-md md:text-lg font-roboto focus:outline-none hover:shadow-lg">
-                        <span class="flex items-center justify-center gap-4">
-                            <img class="w-5 h-5 text-xs"
+                        className="w-full p-2 text-sm font-normal text-center transition duration-100 bg-white rounded-md md:text-lg font-roboto focus:outline-none hover:shadow-lg">
+                        <span className="flex items-center justify-center gap-4">
+                            <img className="w-5 h-5 text-xs"
                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/800px-Google_%22G%22_Logo.svg.png"
                                 alt="google_logo"/>
                             <span>Continue with Google</span>

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useLocation, Link } from 'react-router-dom'
-import axios from '../axios.js'
 import { FiEdit } from 'react-icons/fi'
 import { AiOutlineDelete } from 'react-icons/ai'
 import {BsLinkedin, BsTwitter,BsInstagram, BsLink45Deg, BsBookmarkHeart} from 'react-icons/bs'
 import { CgOptions } from 'react-icons/cg'
 import { IconContext } from 'react-icons/lib'
+import { NoteContext } from '../context/NoteContext.js'
+import axios from '../axios.js'
 
 const SinglePost = () => {
     const styles = {
@@ -35,11 +36,8 @@ const SinglePost = () => {
         inputDesc: 'mb-12 ml-2 text-xl font-normal text-col-txt font-quicksand leading-7 outline-8 border border-green-500 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 outline-green-500 shadow-sm bg-zinc-200',
         publishBtn: 'text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-lg px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 mr-2 mb-16',
     }
-    // LATER TO CHANGE
-    const user = {
-        username: 'pryansh'
-    }
-    // TILL HERE
+    // USER ADDED BELOW 
+    const { user } = useContext(NoteContext)
     const [post, setPost] = useState({})
     const [title, setTitle] = useState('')
     const [desc, setDesc] = useState('')
@@ -101,7 +99,7 @@ const SinglePost = () => {
                         <div className={styles.userIconCover}>
                             <a href={`http://localhost:3000/?user=${post.username}`}>
                                 <img src={PF + post.profilePic} className={styles.userIcon} alt='user icon'/>
-                            </a>    
+                            </a>
                         </div>
                         <div className={styles.userPostInfo}>
                             <div className={styles.userName}>
