@@ -7,6 +7,7 @@ import { NoteContext } from '../context/NoteContext.js'
 import msg from '../assets/msg.webp'
 import { HiOutlineLocationMarker } from 'react-icons/hi'
 import { IconContext } from 'react-icons/lib'
+import axios from '../axios.js'
 
 const Settings = () => {
   const styles = {
@@ -28,23 +29,21 @@ const Settings = () => {
     rhs: 'basis-2/4',
     rhsImgCov: 'flex justify-center items-center',
     rhsImg: 'w-80',
-    userDetails: 'bg-orange-10 p-4',
-    inputBox: '',
-    textAreaBox: '',
-    modifyBox: '',
-    instituteBox: '',
-    modifyBtn: 'border-2 border-zinc-500 rounded-lg py-3 text-col-txt font-semibold px-4 h-fit bg-zinc-100 hover:bg-zinc-200 tracking-wider',
-    inputUserDetails: '',
-    showUserDetails: '',
-    showUserHeader: '',
-    header_lft: 'flex justify-between items-end w-fit gap-2',
+    // details
+    userDetailsCov: 'p-4 mb-8',
+    // FOLLOWING WITH EDIT MODE:
+    inputDetailsCov: 'flex',
+    lft_userDetails: 'basis-2/4',
+    rgt_userDetails: 'basis-2/4 flex gap-2 justify-center items-start',
+    inputBox: 'p-2 rounded-lg m-2 bg-zinc-100 w-8/12',
+    BtnO: 'border-2 border-zinc-500 rounded-lg py-3 text-col-txt font-semibold px-4 h-fit bg-zinc-100 hover:bg-zinc-200 tracking-wider',
+    // BELOW WITH NO EDIT MODE
+    userNlocationCov: 'flex justify-between items-end w-fit gap-2',
     username: 'text-xl font-poppins font-semibold text-col-txt',
     locationBox: 'flex justify-between items-end text-zinc-500 font-semibold text-xs gap-1',
-    locationCover: '',
     highlight: 'text-cyan-500 font-semibold',
     bioCover: 'flex my-4 items-center',
     bio: 'w-5/12',
-    emailCover: '',
     email: 'italic',
   }
   /* function to be made: 
@@ -52,28 +51,30 @@ const Settings = () => {
   updatePassword(asking current and new password confirm password,
     forgot password link - ask username (later phone no. required) => generate link with userId(to let know backend for whom we are updating password) and tokenId(to confirm session even exists or not) on mail => user clicks => new password confirm password)
   , uploadProfilePic, delProfilePic */
-  /* a piece of code which generates random images */
-/*   const user = {
-    username:'pryansh',
-    email:'pryanshukla0321@gmail.com',
-    // 
-    profilePic:'',
-    profession:'dev',
-    institute:'college student',
-    lives_in: 'lucknow',
-    aboutMe:'hi i am garry pista masala',
-  } */
-  const { user } = useContext(NoteContext)
-  const [profilePic, setProfilePic] = useState('')
-  const [profession, setProfession] = useState('')
-  const [institute, setInstitute] = useState('')
-  const [aboutMe, setAboutMe] = useState('')
-  const [lives_in, setLives_in] = useState('')
-  const [password, setPassword] = useState('')
+  
+  const context = useContext(NoteContext)
+  /*  */
+  const [profilePic, setProfilePic] = useState(context.user.profilePic)
+  const [profession, setProfession] = useState(context.user.profession)
+  const [institute, setInstitute] = useState(context.user.institute)
+  const [aboutMe, setAboutMe] = useState(context.user.aboutMe)
+  const [lives_in, setLives_in] = useState(context.user.lives_in)
+  const userObj = {
+    userId: context.user._id,
+    profilePic,profession,institute,aboutMe,lives_in,
+  }
+  /*  */
   const [editMode, setEditMode] = useState(false)
   const [isModal, setIsModal] = useState(false)
   const PF = 'http://localhost:8000/image/'
-
+  const applyChanges = async () => {
+    const res = await axios.patch(`/user/${context.user._id}`, userObj)
+    console.log(res.data)
+    context.setUser(res.data)
+    localStorage.removeItem('user_token')
+    setEditMode(false)
+    window.location.replace('http://localhost:3000/login/')
+  }
   return (
     <div className='flex'>
       <Navbar/>
@@ -95,7 +96,7 @@ const Settings = () => {
               <div className={styles.midLhs}>
                 {/* profile Icon */}
                 <div className={styles.userIconCover}>
-                  <img src={PF + user.profilePic} className={styles.userIcon} alt='your profile'/>
+                  <img src={PF + context.user.profilePic} className={styles.userIcon} alt='your profile'/>
                 </div>
                 {/* upload remove profile pic */}
                 <div className={styles.choseIconFrom}>
@@ -120,48 +121,63 @@ const Settings = () => {
             </div>
           </div>
           {/* 3/3 div */}
-          <div className={styles.userDetails}>
+          <div className={styles.userDetailsCov}>
             {editMode ? (
-              <div className={styles.inputUserDetails}>
-                <label for='profession' className={styles.dull_text}>profession:</label>
-                <input 
-                  id='profession'
-                  type= 'text'
-                  className={styles.inputBox}
-                  value = {profession}
-                  onChange = {(e)=>{setProfession(e.target.value)}}/>
-                <div className={styles.modifyBox}>
-                  <div className={styles.instituteBox}>
-                    <label for='institute' className={styles.dull_text}>institute:</label>
-                    <input 
-                      id='institute'
-                      type= 'text'
-                      className={styles.inputBox}
-                      value = {institute}
-                      onChange = {(e)=>{setInstitute(e.target.value)}}/>
-                  </div>
-                  <button onClick={()=>{setIsModal(true)}} className={styles.modalBtn}>
+              <div className={styles.inputDetailsCov}>
+                <div className={styles.lft_userDetails}>
+                  <label htmlFor='profession' className={styles.dull_text}>profession:</label>
+                  <br/>
+                  <input 
+                    id='profession'
+                    type= 'text'
+                    className={styles.inputBox}
+                    value = {profession}
+                    onChange = {(e)=>{setProfession(e.target.value)}}/>
+                  <br/>
+
+                  <label htmlFor='institute' className={styles.dull_text}>institute:</label>
+                  <br/>
+                  <input 
+                    id='institute'
+                    type= 'text'
+                    className={styles.inputBox}
+                    value = {institute}
+                    onChange = {(e)=>{setInstitute(e.target.value)}}/>
+                  <br/>
+
+                  <label htmlFor='aboutMe' className={styles.dull_text}>Bio:</label>
+                  <br/>
+                  <textarea 
+                    id='aboutMe'
+                    type= 'text'
+                    className={styles.inputBox}
+                    cols= '20'
+                    rows= '3'
+                    value = {aboutMe}
+                    onChange = {(e)=>{setAboutMe(e.target.value)}}/>
+                  <br/>
+
+                  <label htmlFor='lives_in' className={styles.dull_text}>lives in:</label>
+                  <br/>
+                  <input 
+                    id='lives_in'
+                    type= 'text'
+                    className={styles.inputBox}
+                    value = {lives_in}
+                    onChange = {(e)=>{setLives_in(e.target.value)}}/>
+                </div>
+                {/* right TO detailsBox */}
+                <div className={styles.rgt_userDetails}>
+                  <button onClick={applyChanges} className={styles.BtnO}>
                     Apply changes
-                    {/* make a useEffect */}
+                  </button>
+                  <button onClick={()=>{setIsModal(true)}} className={styles.BtnO}>
+                    update Password
                   </button>
                 </div>
-                <label for='aboutMe' className={styles.dull_text}>Bio:</label>
-                <textarea 
-                  id='aboutMe'
-                  type= 'text'
-                  className={styles.textAreaBox}
-                  value = {aboutMe}
-                  onChange = {(e)=>{setAboutMe(e.target.value)}}/>
-                <label for='lives_in' className={styles.dull_text}>lives in:</label>
-                <input 
-                  id='lives_in'
-                  type= 'text'
-                  className={styles.inputBox}
-                  value = {lives_in}
-                  onChange = {(e)=>{setLives_in(e.target.value)}}/>
-                  </div>
-                ) : (
-                  <div className={styles.showUserDetails}>
+              </div>
+              ) : (
+                  <div>
                     {/* username  location
                         profession (eng) at institute
 
@@ -170,40 +186,41 @@ const Settings = () => {
                         your registered email id
                         
                      */}
-                     <div className={styles.showUserHeader}>
-                      <div className={styles.header_lft}>
-                        <h2 className={styles.username}>{user.username}</h2>
+                     {/* 1/3 div */}
+                    <div>
+                      {/* a */}
+                      <div className={styles.userNlocationCov}>
+                        <h2 className={styles.username}>{context.user?.username}</h2>
                         {/* <p>{user.lives_in}</p> */}
                         <p className= {styles.locationBox}>
                           <IconContext.Provider value={{size:'20', color:'#e83900'}}>
                             <HiOutlineLocationMarker/>
                           </IconContext.Provider>
-                          Lucknow</p>
+                          {context.user?.lives_in}</p>
                       </div>
-                      <div className={styles.locationCover}>
-                        {/* {user.profession} at {user.institute} */}
-                        <span className={styles.highlight}>developer</span> at MicroSoft
-                      </div>
-                     </div>
-                     <div className={styles.bioCover}>
+                      {/* b */}
+                      {/* {user.profession} at {user.institute} */}
+                      <span className={styles.highlight}>{context.user?.profession}</span> at {context.user?.institute}
+                    </div>
+                    {/* 2/3 div */}
+                    <div className={styles.bioCover}>
                       <p className={styles.bio}>
                         <span className='font-semibold text-col-txt tracking-wider'>Bio : </span>
-                        jwt is json web token and can be used to enhance security so now you won't be goi''r object withou''asked to get the user object back using middleware.</p>
-                      <button onClick={()=>{setEditMode(true)}} className={styles.modifyBtn}>
+                        {context.user?.aboutMe}</p>
+                      <button onClick={()=>{setEditMode(true)}} className={styles.BtnO}>
                         Modify
                       </button>
-                     </div>
-                     <div className={styles.emailCover}>
-                      <p className={styles.dull_text}>your registered email-id</p>
-                      <p className={styles.email}>{user.email}</p>
-                     </div>
+                    </div>
+                    {/* 3/3 div */}
+                    <p className={styles.dull_text}>your registered email-id</p>
+                    <p className={styles.email}>{context.user?.email}</p>
                   </div>
                 )}
           </div>
         </div>
         {/* set modal */}
         {isModal && (
-          <AuthenticateModal/>
+          <AuthenticateModal closeModal= {setIsModal} userId= {context.user._id}/>
         )}
       </div>
     </div>

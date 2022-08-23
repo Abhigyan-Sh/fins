@@ -25,15 +25,15 @@ router.patch('/:id', async (req, res) => {
             /* //@dev::: user could update their username, password and profilePic Only
             for this i will place joi later (since someone could inject 
             code for fields which don't exist and update them too) */
-
+            
             // encrypt password
             if (req.body.password) {
                 const salt = await bcrypt.genSalt(10)
                 const hashedPassword = await bcrypt.hash(req.body.password, salt)
                 req.body.password = hashedPassword
             }
-
-            const user = await User.findByIdAndUpdate({_id: req.params.id}, req.body)
+            const {userId, ...userObj} = req.body
+            const user = await User.findByIdAndUpdate({_id: req.params.id}, userObj)
             const {password, ...others} = user._doc
             res.status(201).json(others)
             /* //@dev::: will send a boolean instead and frontend will detect true as value 

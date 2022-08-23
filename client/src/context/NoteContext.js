@@ -34,7 +34,7 @@ export const NoteState = ({children}) => {
         }
     }, [token])
     return (
-        <NoteContext.Provider value={{ user, token, setToken }}>
+        <NoteContext.Provider value={{ user, setUser, token, setToken }}>
             {children}
         </NoteContext.Provider>
     )

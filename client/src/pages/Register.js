@@ -10,18 +10,25 @@ const Register = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [profilePic, setProfilePic] = useState('')
   const [profession, setProfession] = useState('')
   const [institute, setInstitute] = useState('')
+  const [lives_in, setLives_in] = useState('')
+  const [aboutMe, setAboutMe] = useState('')
   
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     try {
+      e.preventDefault()
       const res = await axios.post('/api_v1/auth/register', {
         username,
         email,
         password,
         profession,
-        institute
+        institute,
+        lives_in,
+        aboutMe
       })
+      localStorage.removeItem('user_token')
       res && window.location.replace("/login");
     } catch (err) {
       console.log(err)
