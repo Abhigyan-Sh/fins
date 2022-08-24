@@ -32,8 +32,21 @@ const Modal = (props) => {
     }
     const handlePublish = async () => {
         try {
-        console.log(props.postProps)
+            if (props.file) {
+                const data =new FormData();
+                const filename = Date.now() + props.file.name;
+                data.append("name", filename);
+                data.append("file", props.file);
+                props.postProps.postPic = filename;
+                try {
+                  await axios.post("/api_v1/upload/postPic", data);
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+            console.log(props.postProps)
             const res = await axios.post('/posts/', props.postProps)
+            console.log(res)
             {res && window.location.replace('/')}
         } catch (err) {
             console.log(err)

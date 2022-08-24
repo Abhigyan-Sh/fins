@@ -23,8 +23,8 @@ const Settings = () => {
     userIconCover: '',
     userIcon: 'w-32 h-32 rounded-full',
     choseIconFrom: 'flex flex-col bg-zinc-20 gap-2',
-    uploadPhoto: 'bg-purple-700 text-sm border-2 border-zinc-500 rounded-lg flex justify-around items-center py-3 text-white font-semibold px-2 hover:bg-purple-800',
-    uploadDelPhoto: 'bg-white text-base border-2 border-zinc-500 rounded-lg flex justify-around items-center py-3 hover:text-medium-red font-semibold',
+    uploadPhoto: 'bg-purple-700 text-sm border-2 border-zinc-500 rounded-lg flex justify-around items-center py-3 text-white font-semibold px-2 hover:bg-purple-800 cursor-pointer',
+    uploadDelPhoto: 'bg-white text-base border-2 border-zinc-500 rounded-lg flex justify-around items-center py-3 hover:text-medium-red font-semibold cursor-pointer',
     icons: 'mx-2 text-2xl',
     rhs: 'basis-2/4',
     rhsImgCov: 'flex justify-center items-center',
@@ -46,12 +46,6 @@ const Settings = () => {
     bio: 'w-5/12',
     email: 'italic',
   }
-  /* function to be made: 
-  handleModify(make modal visible asking for password), 
-  updatePassword(asking current and new password confirm password,
-    forgot password link - ask username (later phone no. required) => generate link with userId(to let know backend for whom we are updating password) and tokenId(to confirm session even exists or not) on mail => user clicks => new password confirm password)
-  , uploadProfilePic, delProfilePic */
-  
   const context = useContext(NoteContext)
   /*  */
   const [profilePic, setProfilePic] = useState(context.user.profilePic)
@@ -66,15 +60,40 @@ const Settings = () => {
   /*  */
   const [editMode, setEditMode] = useState(false)
   const [isModal, setIsModal] = useState(false)
+  const [file, setFile] = useState('')
   const PF = 'http://localhost:8000/image/'
-  const applyChanges = async (e) => {
+  const applyChanges = async (e, n) => {
+    if (n === 0) return
     e.preventDefault()
+    // adding profilePic to server N userObj.profilePic
+    if (file) {
+      const data =new FormData();
+      const filename = Date.now() + file.name;
+      data.append("name", filename);
+      data.append("file", file);
+      userObj.profilePic = filename;
+      try {
+        await axios.post("/api_v1/upload/profilePic", data);
+      } catch (err) {
+          console.log(err)
+      }
+    }
     const res = await axios.patch(`/user/${context.user._id}`, userObj)
     console.log(res)
     context.setToken(res.data)
     console.log(context.token)
     setEditMode(false)
+    /* instead of this below code */
     // window.location.replace('http://localhost:3000/login/')
+    /* doing a recursive call which works */
+    applyChanges(e, n-1)
+  }
+  // console.log(context.user.profilePic)
+  if(!context.user.profilePic) {
+    context.user.profilePic = 'user_profile.png'
+  }
+  const removeProfilePic = () => {
+    userObj.profilePic = ''
   }
   return (
     <div className='flex'>
@@ -97,15 +116,28 @@ const Settings = () => {
               <div className={styles.midLhs}>
                 {/* profile Icon */}
                 <div className={styles.userIconCover}>
-                  <img src={PF + context.user.profilePic} className={styles.userIcon} alt='your profile'/>
+                  { file ? (
+                    <img src={URL.createObjectURL(file)} className={styles.userIcon} alt='your profile'/>
+                  ) : (
+                    <img src={PF + context.user.profilePic} className={styles.userIcon} alt='your profile'/>
+                  )}
                 </div>
                 {/* upload remove profile pic */}
                 <div className={styles.choseIconFrom}>
-                  <button className={styles.uploadPhoto}>
-                    <FiUploadCloud className={styles.icons}/>
-                    change the photo
-                  </button>
-                  <button className={styles.uploadDelPhoto}>
+                  {/* update profilePic */}
+                  <label htmlFor='ProfilePic'>
+                    <div className={styles.uploadPhoto}>
+                      <FiUploadCloud className={styles.icons}/>
+                      change the photo
+                    </div>
+                  </label>
+                  <input 
+                    type='file'
+                    id='ProfilePic'
+                    className='hidden'
+                    onChange={(e)=>{setFile(e.target.files[0])}}/>
+                  {/* delete profilePic */}
+                  <button className={styles.uploadDelPhoto} onClick={removeProfilePic}>
                     <AiOutlineDelete className={styles.icons}/>
                     remove
                   </button>
@@ -169,7 +201,7 @@ const Settings = () => {
                 </div>
                 {/* right TO detailsBox */}
                 <div className={styles.rgt_userDetails}>
-                  <button onClick={applyChanges} className={styles.BtnO}>
+                  <button onClick={(e)=> {applyChanges(e, 2)}} className={styles.BtnO}>
                     Apply changes
                   </button>
                   <button onClick={()=>{setIsModal(true)}} className={styles.BtnO}>

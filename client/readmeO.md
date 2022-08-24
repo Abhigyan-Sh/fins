@@ -295,4 +295,26 @@ import { IconContext } from react-icons/lib'
 <IconContext.Provider value= {size:'20', color:'red'}}>
   <HiOutlineLocationMarker/>
 </IconContext.Provider>
+
+### 3 ways of saving files
+- saving file on your server
+- saving file's binary data or base64 string data in a database
+- AWS buckets..
+
+### multer code
+(in server.js)
+
+const fileStorageEngine = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './assets/profilePic')
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now()+'_'+file.originalname)
+    }
+})
+const upload = multer({storage: fileStorageEngine})
+app.post('/api_v1/upload/profilePic', upload.single('image'), (req, res) => {
+    res.status(200).send('file has been uploaded successfully!')
+})
+
 ### 

@@ -6,7 +6,7 @@ const PostSchema = new Schema(
       username: {
         type: String,
         required: true,
-        unique: true,
+        unique: false,
       },
       profilePic: {
         type: String,

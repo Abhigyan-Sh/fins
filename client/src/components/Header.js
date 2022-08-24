@@ -6,7 +6,7 @@ import { NoteContext } from '../context/NoteContext.js'
 import logo from '../assets/passionFruit.png'
 import Modal from '../components/Modal.js'
 
-const Header = ({postProps}) => {
+const Header = (props) => {
     const styles = {
         headerCover: 'flex items-center justify-center',
         headerInrCover: 'px-3 py-1 w-8/12 flex items-center justify-between',
@@ -25,7 +25,7 @@ const Header = ({postProps}) => {
         user.profilePic = 'user_profile.png'
     }
     const [openModal, setOpenModal] = useState(false)
-    if (postProps.title && postProps.desc) {
+    if (props.postProps.title && props.postProps.desc) {
         styles.disabledPublishBtn = styles.publishBtn
     }
   return (
@@ -54,7 +54,10 @@ const Header = ({postProps}) => {
         </div>
         {/* Modal */}
         {openModal && (
-            <Modal postProps= {postProps} closeModal={setOpenModal}/>
+            <Modal 
+                postProps= {props.postProps} 
+                closeModal={setOpenModal}
+                file={props.file}/>
         )}
     </div>
   )

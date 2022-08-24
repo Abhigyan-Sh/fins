@@ -9,8 +9,11 @@ const Write = () => {
     writeBoxCover: 'flex justify-center w-full h-full mt-6',
     writeBox: 'w-7/12 flex',
     uploadCover: 'p-4',
+    disableInput: 'hidden',
     icons: 'w-8 h-8 cursor-pointer',
     inputCover: 'flex flex-col p-4 w-full',
+    postPicCover: 'flex justify-center items-center mb-8',
+    file: 'w-10/12 rounded-sm',
     inputTitle: 'capitalize font-bold text-3xl p-2 outline-0',
     inputDesc: 'p-2 text-base mt-4 outline-0',
   }
@@ -18,9 +21,9 @@ const Write = () => {
   const [desc, setDesc] = useState('')
   const [postPic, setPostPic] = useState('')
   const [categories, setCategories] = useState([])
-  // TO BE TAKEN
+  // 
+  const [file, setFile] = useState('')
   const { user } = useContext(NoteContext)
-  // Till here 
   const postProps = {
     title, 
     desc, 
@@ -31,13 +34,27 @@ const Write = () => {
   }
   return (
     <div className={styles.writeCover}>
-      <Header postProps={postProps}/>
+      <Header postProps={postProps} file={file}/>
       <div className={styles.writeBoxCover}>
         <div className={styles.writeBox}>
+          {/* lft */}
           <div className={styles.uploadCover}>
-            <BsCloudUpload className={styles.icons}/>
+            <label htmlFor='uploadPostPic'>
+              <BsCloudUpload className={styles.icons}/>
+            </label>
+            <input 
+              type='file' 
+              accept='image/*'
+              id='uploadPostPic'
+              className={styles.disableInput}
+              onChange={(e) => {setFile(e.target.files[0])}}/>
           </div>
+          {/* rgt */}
           <div className={styles.inputCover}>
+            {file && (
+            <div className={styles.postPicCover}>
+              <img src={URL.createObjectURL(file)} className={styles.file}/>
+            </div>)}
             <input
               type='text'
               className={styles.inputTitle}
