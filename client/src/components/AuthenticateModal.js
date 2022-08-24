@@ -13,16 +13,10 @@ const AuthenticateModal = (props) => {
     options: 'flex justify-center items-center mt-5',
     close: 'bg-gray-300 hover:bg-gray-400 text-rose-500 font-bold py-2 px-4 rounded-l',
     apply: 'bg-gray-300 hover:bg-gray-400 text-emerald-600 font-bold py-2 px-4 rounded-r',
-    // 
-    catCover: 'ml-2 flex flex-wrap justify-center items-center my-10',
-    category: 'px-2 bg-txt text-col-txt leading-5 text-sm font-semibold mr-2 rounded-full cursor-pointer w-fit py-2 px-4 mb-2',
-    popupMsgCover: 'flex justify-center items-center',
-    popupMsg: 'text-emerald-600 mb-4',
     inputBox: 'p-2 rounded-lg m-3 bg-zinc-100 w-8/12 outline-0',
-    grTxt: 'text-emerald-600 m-auto'
   }
   const { user } = useContext(NoteContext)
-  const [ msg, setMsg ] = useState(false)
+  const [ msg, setMsg ] = useState('')
   const [ currentPass, setCurrentPass ] = useState('')
   const [ newPass, setNewPass ] = useState('')
   const updatedUser = {
@@ -30,10 +24,20 @@ const AuthenticateModal = (props) => {
   }
   // formData updating..
   const handleSubmit = async () => {
-    // create route to check user password
-    const res = await axios.post(`/verify_user/${user._id}`, updatedUser)
+    axios.post(`/verify_user/${user._id}`, updatedUser)
+    .then(res => {
+      console.log(res.data)
+      setMsg('password has been updated successfully!')
+    }).catch(err => {
+        setMsg(err.response.data)
+    })
+    /* below wouldn't work
     console.log(res)
-    res && setMsg(true)
+    if (res.status === 200) {
+      setMsg('new password has been setup successfully!')
+    } else {
+      setMsg(res.response.data)
+    } */
   }
   return (
     <div className={styles.modalBG}>
@@ -62,8 +66,14 @@ const AuthenticateModal = (props) => {
             onChange = {(e)=>{setNewPass(e.target.value)}}/>
         </div>
         {/* msg appears */}
-        {msg && (
-          <p className={styles.grTxt}>new password has been setup successfully!</p>
+        {msg === 'wrong password' && (
+          <p className='text-rose-600 m-auto'>{msg} 😹</p>
+        )}
+        {msg === 'sorry unfortunately, some server error occurred' && (
+          <p className='text-yellow-500 m-auto'>{msg} 😿</p>
+        )}
+        {msg === 'password has been updated successfully!' && (
+          <p className='text-emerald-600 m-auto'>{msg} 🙀</p>
         )}
         {/* CANCEL n APPLY */}
         <div className={styles.options}>

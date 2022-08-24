@@ -1,6 +1,7 @@
 import express from 'express'
 import User from '../mongoDB/models/User.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const router = express.Router()
 
@@ -35,7 +36,9 @@ router.patch('/:id', async (req, res) => {
             const {userId, ...userObj} = req.body
             const user = await User.findByIdAndUpdate({_id: req.params.id}, userObj)
             const {password, ...others} = user._doc
-            res.status(201).json(others)
+            const signed_user = jwt.sign(others, process.env.ACCESS_TOKEN, {expiresIn: "1d"})
+            console.log(signed_user)
+            res.status(201).json(signed_user)
             /* //@dev::: will send a boolean instead and frontend will detect true as value 
             sent in response, on which it will NavigateTo login page since i 
             want to generate and save a new jwt in browserStorage so that now when 

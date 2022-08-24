@@ -67,13 +67,14 @@ const Settings = () => {
   const [editMode, setEditMode] = useState(false)
   const [isModal, setIsModal] = useState(false)
   const PF = 'http://localhost:8000/image/'
-  const applyChanges = async () => {
+  const applyChanges = async (e) => {
+    e.preventDefault()
     const res = await axios.patch(`/user/${context.user._id}`, userObj)
-    console.log(res.data)
-    context.setUser(res.data)
-    localStorage.removeItem('user_token')
+    console.log(res)
+    context.setToken(res.data)
+    console.log(context.token)
     setEditMode(false)
-    window.location.replace('http://localhost:3000/login/')
+    // window.location.replace('http://localhost:3000/login/')
   }
   return (
     <div className='flex'>
