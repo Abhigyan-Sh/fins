@@ -42,6 +42,7 @@ const SinglePost = () => {
     const [title, setTitle] = useState('')
     const [desc, setDesc] = useState('')
     const [updateMode, setUpdateMode] = useState(false)
+    const [ postUser, setPostUser ] = useState('')
     
     const PF = 'http://localhost:8000/image/'
     const PF2 = 'http://localhost:8000/postImage/'
@@ -79,6 +80,22 @@ const SinglePost = () => {
             setPost(res.data)
             setTitle(res.data.title)
             setDesc(res.data.desc)
+            if (post) {
+                try {
+                    const fetchPostUser = async () => {
+                      axios.get(`/user/${post.userId}`)
+                      .then((res) => {
+                        setPostUser(res.data)
+                      })
+                      .catch((err) => {
+                        console.log(err)
+                      })
+                    }
+                    fetchPostUser()
+                } catch (err) {
+                    console.log(err)
+                }
+            }
         } catch (err) {
           console.log(err)
         }
@@ -97,7 +114,7 @@ const SinglePost = () => {
                 <div className={styles.header_lftSide}>
                     <div className={styles.userIconCover}>
                         <a href={`http://localhost:3000/?user=${post.username}`}>
-                            <img src={PF + user.profilePic} className={styles.userIcon} alt='user icon'/>
+                            <img src={PF + postUser.profilePic} className={styles.userIcon} alt='user icon'/>
                         </a>
                     </div>
                     <div className={styles.userPostInfo}>
