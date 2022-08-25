@@ -44,7 +44,7 @@ router.patch('/:id', async (req, res) => {
             want to generate and save a new jwt in browserStorage so that now when 
             user refreshes their page they see themselves as updatedUser n not old user */
         } catch (err) {
-        res.statusCode(500)
+            res.status(500).send('Internal Server Error')
         }
     } else {
         res.status(403).send("you can't update someone else's account")

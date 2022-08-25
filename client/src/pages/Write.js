@@ -25,12 +25,14 @@ const Write = () => {
   const [file, setFile] = useState('')
   const { user } = useContext(NoteContext)
   const postProps = {
-    title, 
-    desc, 
-    postPic, 
     username: user?.username, 
-    profilePic: user?.profilePic, 
+    userId: user?._id,
+    postPic,
+    title,
     categories,
+    desc,
+    profilePic: user?.profilePic,
+    institute: user?.institute,
   }
   return (
     <div className={styles.writeCover}>

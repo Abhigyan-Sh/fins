@@ -85,101 +85,99 @@ const SinglePost = () => {
       }
       fetchPost()
     }, [postId])
-    if (!post.profilePic) {
-        post.profilePic = 'user_profile.png'
+    if (!user.profilePic) {
+        user.profilePic = 'user_profile.png'
     }
   return (
-    <div>
-        <div className={styles.postCover}>
-            <div className={styles.postInrCover}>
-                {/* post header */}
-                <div className={styles.postHeader}>
-                    {/* lhs */}
-                    <div className={styles.header_lftSide}>
-                        <div className={styles.userIconCover}>
+    <div className={styles.postCover}>
+        <div className={styles.postInrCover}>
+            {/* post header */}
+            <div className={styles.postHeader}>
+                {/* lhs */}
+                <div className={styles.header_lftSide}>
+                    <div className={styles.userIconCover}>
+                        <a href={`http://localhost:3000/?user=${post.username}`}>
+                            <img src={PF + user.profilePic} className={styles.userIcon} alt='user icon'/>
+                        </a>
+                    </div>
+                    <div className={styles.userPostInfo}>
+                        <div className={styles.userName}>
                             <a href={`http://localhost:3000/?user=${post.username}`}>
-                                <img src={PF + post.profilePic} className={styles.userIcon} alt='user icon'/>
+                                {post.username}
                             </a>
                         </div>
-                        <div className={styles.userPostInfo}>
-                            <div className={styles.userName}>
-                                <a href={`http://localhost:3000/?user=${post.username}`}>
-                                    {post.username}
-                                </a>
-                            </div>
-                            <div className={styles.createNUpdate}>
-                                <p className={styles.dull_txt}><span className={styles.redTxt}>created on:</span> {new Date(post.createdAt).toDateString()}</p>
-                                <div className={styles.dull_dot}></div>
-                                {post.createdAt != post.updatedAt && 
-                                   <p className={styles.dull_txt}><span className={styles.redTxt}>last updated:</span> {new Date(post.updatedAt).toDateString()}</p>}
-                            </div>
+                        <div className={styles.createNUpdate}>
+                            <p className={styles.dull_txt}><span className={styles.redTxt}>created on:</span> {new Date(post.createdAt).toDateString()}</p>
+                            <div className={styles.dull_dot}></div>
+                            {post.createdAt != post.updatedAt && 
+                               <p className={styles.dull_txt}><span className={styles.redTxt}>last updated:</span> {new Date(post.updatedAt).toDateString()}</p>}
                         </div>
                     </div>
-                    {/* rhs */}
-                    <div>
-                        {/* place icons */}
-                        <div className={styles.iconsCover}>
-                            <div className= {styles.shareIcons}>
-                                <BsLinkedin className={styles.icons}/>
-                                <BsTwitter className={styles.icons}/>
-                                <BsInstagram className={styles.icons}/>
-                                <BsLink45Deg className={styles.icons}/>
-                            </div>
-                            <div className= {styles.otherIcons}>
-                                <BsBookmarkHeart className={styles.icons}/>
-                                <CgOptions className={styles.icons}/>
-                            </div>
-                        </div>
-                    </div>
-               </div>
-               {/* post body */}
-               <div>
-                <div className={styles.heading}>
-                    {/* input or title */}
-                    {updateMode ? (
-                        <input 
-                        type='text'
-                        placeholder='title'
-                        className={styles.inputTitle}
-                        autoFocus
-                        required
-                        value={title}
-                        onChange={(e)=>{setTitle(e.target.value)}}/>
-                    ) : (
-                        <h1 className={styles.lrgTxt}>{title}</h1>
-                    )}
-                    {user?.username === post.username && (
-                        <div className={styles.iconUpdateDeleteCont}>
-                            <IconContext.Provider value={{color: '#4267B2'}}>
-                               <FiEdit className={styles.iconUpdateDelete} onClick={()=> {setUpdateMode(true)}}/>
-                            </IconContext.Provider>
-                            <IconContext.Provider value={{color: '#e83900'}}>
-                               <AiOutlineDelete className={styles.iconUpdateDelete} onClick={handleDelete}/>
-                            </IconContext.Provider>
-                        </div>
-                    )}
                 </div>
-                <p className={styles.normTxt}>Awww man… another article trying to upend MVP. Let's see how this one turns out.</p>
-                <img src={PF2 + post.postPic} alt='post image' className={styles.postImg}/>
+                {/* rhs */}
+                <div>
+                    {/* place icons */}
+                    <div className={styles.iconsCover}>
+                        <div className= {styles.shareIcons}>
+                            <BsLinkedin className={styles.icons}/>
+                            <BsTwitter className={styles.icons}/>
+                            <BsInstagram className={styles.icons}/>
+                            <BsLink45Deg className={styles.icons}/>
+                        </div>
+                        <div className= {styles.otherIcons}>
+                            <BsBookmarkHeart className={styles.icons}/>
+                            <CgOptions className={styles.icons}/>
+                        </div>
+                    </div>
+                </div>
+           </div>
+           {/* post body */}
+           <div>
+            <div className={styles.heading}>
+                {/* input or title */}
                 {updateMode ? (
-                    <textarea
-                    placeholder='blog'
-                    className={styles.inputDesc}
-                    rows= '25'
+                    <input 
+                    type='text'
+                    placeholder='title'
+                    className={styles.inputTitle}
+                    autoFocus
                     required
-                    value={desc}
-                    onChange={(e)=>{setDesc(e.target.value)}}/>
+                    value={title}
+                    onChange={(e)=>{setTitle(e.target.value)}}/>
                 ) : (
-                    <p className={styles.normTxt}>{desc}</p>
+                    <h1 className={styles.lrgTxt}>{title}</h1>
                 )}
-                {/* publish button */}
-                {updateMode && (
-                    <button
-                    className={styles.publishBtn}
-                    onClick={handleSubmit}>publish</button>
+                {user?.username === post.username && (
+                    <div className={styles.iconUpdateDeleteCont}>
+                        <IconContext.Provider value={{color: '#4267B2'}}>
+                           <FiEdit className={styles.iconUpdateDelete} onClick={()=> {setUpdateMode(true)}}/>
+                        </IconContext.Provider>
+                        <IconContext.Provider value={{color: '#e83900'}}>
+                           <AiOutlineDelete className={styles.iconUpdateDelete} onClick={handleDelete}/>
+                        </IconContext.Provider>
+                    </div>
                 )}
-               </div>
             </div>
+            <p className={styles.normTxt}>Awww man… another article trying to upend MVP. Let's see how this one turns out.</p>
+            <img src={PF2 + post.postPic} alt='post image' className={styles.postImg}/>
+            {updateMode ? (
+                <textarea
+                placeholder='blog'
+                className={styles.inputDesc}
+                rows= '25'
+                required
+                value={desc}
+                onChange={(e)=>{setDesc(e.target.value)}}/>
+            ) : (
+                <p className={styles.normTxt}>{desc}</p>
+            )}
+            {/* publish button */}
+            {updateMode && (
+                <button
+                className={styles.publishBtn}
+                onClick={handleSubmit}>publish</button>
+            )}
+           </div>
         </div>
     </div>
   )

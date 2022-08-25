@@ -9,7 +9,7 @@ export const NoteState = ({children}) => {
     const [ token, setToken ] = useState(tokee)
     
     useEffect(() => {
-        console.log(token)
+        /* console.log(token) */
         localStorage.setItem('user_token', token)
         // fetch the user_object by requesting n passing the token from localStorage
         const fetchUser = async () => {
@@ -20,7 +20,7 @@ export const NoteState = ({children}) => {
                 }
             })
             .then((res)=> {
-                console.log(res)
+                /* console.log(res) */
                 setUser(res.data)
             })
             .catch((err)=> {

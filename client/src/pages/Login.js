@@ -1,33 +1,33 @@
 import React, { useState, useContext } from 'react'
 import { RiLockPasswordLine } from 'react-icons/ri'
-import { AiOutlineMail } from 'react-icons/ai'
+import { TiUserOutline } from 'react-icons/ti'
 import axios from '../axios.js'
 import { NoteContext } from '../context/NoteContext.js'
 
 const Login = () => {
-    // MADE LATER FROM 
     const context = useContext(NoteContext)
-    // TILL HERE
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [msg, setMsg] = useState('')
     const handleSubmit = async (e) => {
-    try {
-        e.preventDefault()
-        const res = await axios.post('/api_v1/auth/login', {
-          username,
-          password,
-        })
-        // BELOW CODE CHECKS 
-        context.setToken(res.data)
-        console.log(context.token)
-        console.log(res.data)
-        if (res.data) {
-            window.location.replace('http://localhost:3000/')
+        try {
+            e.preventDefault()
+            axios.post('/api_v1/auth/login', {
+              username,
+              password,
+            })
+            .then((res) => {
+                context.setToken(res.data)
+                // console.log(context.token)
+                // console.log(res.data)
+                window.location.replace('http://localhost:3000/')
+            })
+            .catch((err) => {
+                setMsg(err.response.data)
+            })
+        }   catch (err) {
+            console.log(err)
         }
-      /* CHECKS TILL HERE */
-    }   catch (err) {
-        console.log(err)
-    }
   }
   return (
     <div className="bg-gradient-to-r from-red-500 to-red-300">
@@ -52,7 +52,7 @@ const Login = () => {
                     <div className="space-y-4">
                         <div className="relative flex items-center">
                           {/* username input */}
-                            <AiOutlineMail className='absolute w-5 h-5 ml-3 text-gray-400'/>
+                            <TiUserOutline className='absolute w-5 h-5 ml-3 text-gray-400'/>
                             <input
                                 className="w-full p-2 pl-10 text-gray-800 placeholder-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
                                 type="text" 
@@ -80,6 +80,11 @@ const Login = () => {
                                 <span>Remember Me</span>
                             </label>
                         </div> */}
+                        {msg && (
+                            <div className='flex justify-center items-center'>
+                                <p className='text-rose-600'>{msg}</p>
+                            </div>
+                        )}
                         <div>
                             <button
                                 className="w-full p-2 text-sm font-semibold text-center text-white transition duration-100 rounded-md md:text-lg font-nunito bg-gradient-to-r from-blue-600 to-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 hover:shadow-lg"

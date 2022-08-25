@@ -8,9 +8,10 @@ const PostSchema = new Schema(
         required: true,
         unique: false,
       },
-      profilePic: {
+      userId: {
         type: String,
-        required: false,
+        required: true,
+        unique: false,
       },
       postPic: {
         type: String,

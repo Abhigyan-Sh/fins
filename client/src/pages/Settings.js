@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react'
 import Navbar from '../components/Navbar.js'
 import { FiUploadCloud } from 'react-icons/fi'
+import { HiOutlineLocationMarker } from 'react-icons/hi'
+import { IconContext } from 'react-icons/lib'
 import { AiOutlineDelete } from 'react-icons/ai'
 import AuthenticateModal from '../components/AuthenticateModal.js'
 import { NoteContext } from '../context/NoteContext.js'
-import msg from '../assets/msg.webp'
-import { HiOutlineLocationMarker } from 'react-icons/hi'
-import { IconContext } from 'react-icons/lib'
+import msgImg from '../assets/msg.webp'
 import axios from '../axios.js'
 
 const Settings = () => {
@@ -34,9 +34,11 @@ const Settings = () => {
     // FOLLOWING WITH EDIT MODE:
     inputDetailsCov: 'flex',
     lft_userDetails: 'basis-2/4',
+    rgt_userDetails: 'flex flex-col',
     rgt_userDetails: 'basis-2/4 flex gap-2 justify-center items-start',
     inputBox: 'p-2 rounded-lg m-2 bg-zinc-100 w-8/12',
     BtnO: 'border-2 border-zinc-500 rounded-lg py-3 text-col-txt font-semibold px-4 h-fit bg-zinc-100 hover:bg-zinc-200 tracking-wider',
+    msg: 'text-rose-600 font-semibold p-2 text-lg',
     // BELOW WITH NO EDIT MODE
     userNlocationCov: 'flex justify-between items-end w-fit gap-2',
     username: 'text-xl font-poppins font-semibold text-col-txt',
@@ -61,7 +63,9 @@ const Settings = () => {
   const [editMode, setEditMode] = useState(false)
   const [isModal, setIsModal] = useState(false)
   const [file, setFile] = useState('')
+  const [msg, setMsg] = useState('')
   const PF = 'http://localhost:8000/image/'
+
   const applyChanges = async (e, n) => {
     if (n === 0) return
     e.preventDefault()
@@ -78,22 +82,28 @@ const Settings = () => {
           console.log(err)
       }
     }
-    const res = await axios.patch(`/user/${context.user._id}`, userObj)
-    console.log(res)
-    context.setToken(res.data)
-    console.log(context.token)
-    setEditMode(false)
-    /* instead of this below code */
-    // window.location.replace('http://localhost:3000/login/')
-    /* doing a recursive call which works */
-    applyChanges(e, n-1)
+    axios.patch(`/user/${context.user._id}`, userObj)
+    .then((res) => {
+      /* console.log(res) */
+      context.setToken(res.data)
+      /* console.log(context.token) */
+      setEditMode(false)
+      /* instead of this below code, doing a recursive call which works
+      window.location.replace('http://localhost:3000/login/') */
+      applyChanges(e, n-1)
+    })
+    .catch((err) => {
+      setMsg(err.response.data)
+    })
   }
-  // console.log(context.user.profilePic)
+  /* console.log(context.user.profilePic) */
   if(!context.user.profilePic) {
     context.user.profilePic = 'user_profile.png'
   }
   const removeProfilePic = () => {
+    setFile('')
     userObj.profilePic = ''
+    setEditMode(true)
   }
   return (
     <div className='flex'>
@@ -126,13 +136,14 @@ const Settings = () => {
                 <div className={styles.choseIconFrom}>
                   {/* update profilePic */}
                   <label htmlFor='ProfilePic'>
-                    <div className={styles.uploadPhoto}>
+                    <div className={styles.uploadPhoto} onClick={()=>{setEditMode(true)}}>
                       <FiUploadCloud className={styles.icons}/>
                       change the photo
                     </div>
                   </label>
                   <input 
                     type='file'
+                    accept='image/*'
                     id='ProfilePic'
                     className='hidden'
                     onChange={(e)=>{setFile(e.target.files[0])}}/>
@@ -149,7 +160,7 @@ const Settings = () => {
             {/* rhs */}
             <div className={styles.rhs}>
               <div className={styles.rhsImgCov}>
-                <img src={msg} className={styles.rhsImg} alt='message from fins'/>
+                <img src={msgImg} className={styles.rhsImg} alt='message from fins'/>
               </div>
             </div>
           </div>
@@ -200,13 +211,20 @@ const Settings = () => {
                     onChange = {(e)=>{setLives_in(e.target.value)}}/>
                 </div>
                 {/* right TO detailsBox */}
-                <div className={styles.rgt_userDetails}>
-                  <button onClick={(e)=> {applyChanges(e, 2)}} className={styles.BtnO}>
-                    Apply changes
-                  </button>
-                  <button onClick={()=>{setIsModal(true)}} className={styles.BtnO}>
-                    update Password
-                  </button>
+                <div>
+                  <div className={styles.rgt_userDetails}>
+                    <button onClick={(e)=> {applyChanges(e, 2)}} className={styles.BtnO}>
+                      Apply changes
+                    </button>
+                    <button onClick={()=>{setIsModal(true)}} className={styles.BtnO}>
+                      update Password
+                    </button>
+                  </div>
+                  {
+                    msg && (
+                      <p className={styles.msg}>{msg}</p>
+                    )
+                  }
                 </div>
               </div>
               ) : (

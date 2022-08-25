@@ -1,19 +1,22 @@
+import { useEffect, useState } from 'react'
 import { BsBookmarkHeart } from 'react-icons/bs'
 import { MdHideSource } from 'react-icons/md'
 import { CgOptions } from 'react-icons/cg'
 import { IconContext } from 'react-icons/lib'
 import { Link } from 'react-router-dom'
+import axios from '../axios.js'
 
 const Post = ({post}) => {
   const styles = {
     'post_outerCover': 'border-y-1 pt-10 ml-32 mr-32 flex justify-center',
     'post_innerCover': 'w-11/12',
     'post_header': 'flex items-center',
-    'post_header_inner': 'flex items-center justify-between ml-1',
+    'post_header_inner': 'flex items-center justify-between ml-1 gap-1',
     'profilePic': 'w-8 h-8 rounded-full cursor-pointer',
-    'dull_text': 'text-zinc-500 font-semibold text-sm cursor-pointer',
+    'dull_text': 'text-zinc-500 font-semibold text-sm',
     'dull_dot': 'w-0.5 h-0.5 bg-zinc-500 rounded-full mx-1',
-    'user_text': 'font-semibold text-gray-800 font-karla text-base cursor-pointer',
+    'user_text': 'font-semibold text-gray-800 font-karla text-base',
+    'user_text_pointer': 'font-semibold text-gray-800 font-karla text-base cursor-pointer',
     'post_body': 'flex mt-2 cursor-pointer',
     'post_title': 'capitalize font-silkscreen font-bold text-2xl pb-1.5 cursor-pointer',
     'post_desc': 'text-base cursor-pointer',
@@ -32,15 +35,33 @@ const Post = ({post}) => {
   if (!post.profilePic) {
     post.profilePic = 'user_profile.png'
   }
+  const [ postUser, setPostUser ] = useState('')
+  useEffect(() => {
+    try {
+          const fetchPostUser = async () => {
+            axios.get(`/user/${post.userId}`)
+            .then((res) => {
+              setPostUser(res.data)
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+          }
+          fetchPostUser()
+        } catch (err) {
+          console.log(err)
+        }
+  }, [])
   return (
     <div className={styles.post_outerCover}>
       <div className={styles.post_innerCover}>
         {/* post headers */}
         <div className={styles.post_header}>
-          <img src={PF + post.profilePic} alt='' className={styles.profilePic}/>
+          <img src={PF + postUser.profilePic} alt='' className={styles.profilePic}/>
           <div className={styles.post_header_inner}>
-            <p className={styles.user_text}>{post.username} <span className={styles.dull_text}>in </span>
-            oxford school of Business</p>
+            <p className={styles.user_text_pointer}>{post.username}</p>
+              <p className={styles.user_text}>
+                <span className={styles.dull_text}> in </span>{postUser.institute}</p>
             <div className={styles.dull_dot}></div>
             <span className={styles.dull_text}>{new Date(post.createdAt).toDateString()}</span>
           </div>

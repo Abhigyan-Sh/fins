@@ -285,10 +285,7 @@ useReducer()
 ### 
 how to change link with clicking on a button without useState and without creating function but rather can it be done using callback function if yes then how?
 ### To do
-update photo
-summit empty '' for profession, etc.
-fill clicked icons
-you may reload page after changing user obj
+all done
 ### 
 
 import { IconContext } from react-icons/lib'
@@ -297,7 +294,7 @@ import { IconContext } from react-icons/lib'
 </IconContext.Provider>
 
 ### 3 ways of saving files
-- saving file on your server
+- saving file on your server maybe blob
 - saving file's binary data or base64 string data in a database
 - AWS buckets..
 
@@ -317,4 +314,13 @@ app.post('/api_v1/upload/profilePic', upload.single('image'), (req, res) => {
     res.status(200).send('file has been uploaded successfully!')
 })
 
-### 
+### not workings
+- - navbar and sidebar not fixed
+- - build posts
+- - req
+- - if (!postUser.profilePic) {
+    postUser.profilePic = 'user_profile.png'
+  }
+  n
+  user.profilePic
+  ERROR

@@ -17,7 +17,7 @@ const Header = (props) => {
         disabledPublishBtn: 'text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-xl text-sm px-3 py-2 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 mr-2 mb-2 opacity-50 cursor-not-allowed',
         iconsCover: 'flex items-center',
         icons: 'w-6 h-6 ml-5 text-gray-400 cursor-pointer cursor-not-allowed',
-        userIcon: 'w-8 h-8 rounded-full ml-5 cursor-pointer',
+        userIcon: 'w-9 h-9 rounded-full ml-5 cursor-pointer',
     }
     const PF = 'http://localhost:8000/image/'
     const { user } = useContext(NoteContext)
