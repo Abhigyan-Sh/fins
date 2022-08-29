@@ -24,7 +24,7 @@ export const NoteState = ({children}) => {
                 setUser(res.data)
             })
             .catch((err)=> {
-                setUser(null)
+                setUser('')
             })
             /* if (!res_user) {
                 console.log('here 1')

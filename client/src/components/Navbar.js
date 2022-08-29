@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
 import logo from '../assets/passionFruit.png'
 import { GoHome } from 'react-icons/go';
-import { IoIosLogIn,IoMdNotificationsOutline } from 'react-icons/io';
+import { IoIosLogIn,IoMdNotificationsOutline, IoIosLogOut } from 'react-icons/io';
 import { FiSettings } from 'react-icons/fi'
 import { BsBookmark } from 'react-icons/bs'
 import { IconContext } from 'react-icons'
 import { FaFeather } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { NoteContext } from '../context/NoteContext';
 
 const Navbar = () => {
@@ -20,12 +20,14 @@ const Navbar = () => {
     'navIcons': 'active:fill-black !important',
   }
   const { user } = useContext(NoteContext)
+  const navigator = useNavigate()
   const PF = 'http://localhost:8000/image/'
-  if (user.profilePic==='') {
-    user.profilePic = 'user_profile.png'
-  }
   const toLoginPg = () => {
-    window.location.replace('http://localhost:3000/login')
+    navigator('/login')
+  }
+  const toLogoutPg = () => {
+    localStorage.removeItem('user_token')
+    window.location.replace('http://localhost:3000/') // reloads code (hence user not sets when used somewhere earlier)
   }
   return (
     <div className= {style.navbar_container}>
@@ -44,7 +46,7 @@ const Navbar = () => {
           <Link to={`/write/`}><FaFeather className={style.navIcons}/></Link>
         </IconContext.Provider>
       </div>
-      {!user && 
+      {!user ? (
         <div>
           <button type="button" className= {style.loginBtn} onClick={toLoginPg}>
             <IconContext.Provider value={{color: 'grey', size: '25px'}}>
@@ -53,9 +55,21 @@ const Navbar = () => {
             login/<br/>
             register
           </button>
-        </div>}
+        </div>
+        ) : (
+          <button type="button" className= {style.loginBtn} onClick={toLogoutPg}>
+            <IconContext.Provider value={{color: 'grey', size: '25px'}}>
+              <IoIosLogOut/>
+            </IconContext.Provider>
+            logout
+          </button>
+        )}
         <Link to='/settings/'>
-          <img src= {PF + user.profilePic} className={style.profile_icon} alt='profile icon'/>
+          { user ? (
+            <img src= {PF + user.profilePic} className={style.profile_icon} alt='profile icon'/>
+          ) : (
+            <img src= {PF + 'user_profile.png'} className={style.profile_icon} alt='profile icon'/>
+          )}
         </Link>
     </div>
   )

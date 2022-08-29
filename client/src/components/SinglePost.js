@@ -74,9 +74,37 @@ const SinglePost = () => {
         }
     }
     useEffect(() => {
-      const fetchPost = async () => {
+      const fetchPost =  async () => {
         try {
-            const res = await axios.get(`posts/${postId}`)
+            const res = await axios.get(`/posts/${postId}`)
+            setPost(res.data)
+            setTitle(res.data.title)
+            setDesc(res.data.desc)
+            const res2 = await axios.get(`/user/${res.data.userId}`)
+            setPostUser(res2.data)
+        } catch (err) {
+            console.log(err)
+        }
+        /* axios.get(`/posts/${postId}`)
+        .then((res)=>{
+            setPost(res.data)
+            setTitle(res.data.title)
+            setDesc(res.data.desc)
+        })
+        .then(()=>{
+            axios.get(`/user/${post.userId}`)
+            .then((res) => {
+                setPostUser(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+        }) */
+        /* try {
+            const res = await axios.get(`/posts/${postId}`)
             setPost(res.data)
             setTitle(res.data.title)
             setDesc(res.data.desc)
@@ -98,13 +126,10 @@ const SinglePost = () => {
             }
         } catch (err) {
           console.log(err)
-        }
+        } */
       }
       fetchPost()
     }, [postId])
-    if (!user.profilePic) {
-        user.profilePic = 'user_profile.png'
-    }
   return (
     <div className={styles.postCover}>
         <div className={styles.postInrCover}>

@@ -13,7 +13,8 @@ router.get('/:id', async (req, res) => {
         const {password, ...others} = user._doc
         res.status(200).json(others)
     } catch (err) {
-        res.statusCode(500)
+        // res.statusCode(500)
+        console.log(err)
     }
 })
 
