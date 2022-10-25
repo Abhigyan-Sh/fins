@@ -42,7 +42,7 @@ const Sidebar = () => {
       <div className= {styles.container}>
         <p className= {styles.header}>follow me on..</p>
         <div className= {styles.iconContainer}>
-          <a href='https://www.linkedin.com/in/abhigyan-shukla-6b0088224/' target='_blank'>
+          <a href='https://www.linkedin.com/in/abhigyan-shukla-057345252/' target='_blank'>
             <IconContext.Provider value={{color: '#0A66C2', size: '25px'}}>
               <BsLinkedin/>
             </IconContext.Provider>

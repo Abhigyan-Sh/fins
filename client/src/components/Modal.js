@@ -4,7 +4,7 @@ import React, { useState }from 'react'
 const Modal = (props) => {
     const styles = {
         modalBG: 'absolute w-screen top-0 left-0 h-screen bg-modalBg flex justify-center items-center',
-        modal: 'w-4/12 h-4/12 bg-white rounded-xl shadow-custom flex flex-col p-6',
+        modal: 'w-4/12 h-4/12 bg-white rounded-xl shadow-custom flex flex-col p-6 z-20',
         cancel: 'flex justify-end',
         cancelBtn: 'bg-transparent border-0 text-2xl pointer-cursor',
         title: 'inline-block text-center mt-3 text-3xl',

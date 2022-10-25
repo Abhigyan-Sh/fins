@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useMemo, useRef, useState, useContext } from 'react'
 import { useLocation, Link } from 'react-router-dom'
+import JoditEditor from 'jodit-react'
 import { FiEdit } from 'react-icons/fi'
 import { AiOutlineDelete } from 'react-icons/ai'
 import {BsLinkedin, BsTwitter,BsInstagram, BsLink45Deg, BsBookmarkHeart} from 'react-icons/bs'
@@ -33,8 +34,8 @@ const SinglePost = () => {
         postImg: 'mb-5',
         normTxt: 'mb-16 ml-2 text-xl font-normal text-col-txt font-quicksand leading-7',
         inputTitle: 'text-3xl tracking-tighter leading-10 my-5 text-col-txt font-silkscreen border-2 border-green-500 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 bg-zinc-300',
-        inputDesc: 'mb-12 ml-2 text-xl font-normal text-col-txt font-quicksand leading-7 outline-8 border border-green-500 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 outline-green-500 shadow-sm bg-zinc-200',
-        publishBtn: 'text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-lg px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 mr-2 mb-16',
+        // inputDesc: 'mb-12 ml-2 text-xl font-normal text-col-txt font-quicksand leading-7 outline-8 border border-green-500 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 outline-green-500 shadow-sm bg-zinc-200',
+        publishBtn: 'my-8 text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-lg px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 mr-2 mb-16',
     }
     // USER ADDED BELOW 
     const { user } = useContext(NoteContext)
@@ -44,12 +45,32 @@ const SinglePost = () => {
     const [updateMode, setUpdateMode] = useState(false)
     const [ postUser, setPostUser ] = useState('')
     
+    const editor = useRef(null)
+	const [content, setContent] = useState('')
+
     const PF = 'http://localhost:8000/image/'
     const PF2 = 'http://localhost:8000/postImage/'
 
     const {pathname} = useLocation()
     const postId = pathname.split('/')[2]
     
+    const config = useMemo(() => (
+		{
+            readonly: false, // all options from http://rmamuzic.rs/node_modules/jodit/examples/index.html
+            placeholder: 'Start writing your blog..',
+            colorPickerDefaultTab: 'Text',
+        })
+        , []
+	)
+    const configReadOnly = useMemo(() => (
+		{
+            readonly: true, // all options from https://xdsoft.net/jodit/doc/,
+            activeButtonsInReadOnly:['fullsize', 'print'],
+            toolbar: false,
+        })
+        , []
+	)
+
     const handleDelete = async () => {
         try {
             await axios.delete(`/posts/${post._id}`)
@@ -201,7 +222,17 @@ const SinglePost = () => {
                 )}
             </div>
             <p className={styles.normTxt}>Awww man… another article trying to upend MVP. Let's see how this one turns out.</p>
-            <img src={PF2 + post.postPic} alt='post image' className={styles.postImg}/>
+            {post.postPic && (
+                <img src={PF2 + post.postPic} alt='post image' className={styles.postImg}/>)
+            }
+            <JoditEditor
+			    ref={editor}
+			    value={desc}
+			    config={updateMode ? (config) : (configReadOnly)}
+			    onChange={newContent => setDesc(newContent)}
+                className={styles.inputDesc}
+            />
+            {/* @dev::: ⚠Obsolete Code Below
             {updateMode ? (
                 <textarea
                 placeholder='blog'
@@ -212,7 +243,8 @@ const SinglePost = () => {
                 onChange={(e)=>{setDesc(e.target.value)}}/>
             ) : (
                 <p className={styles.normTxt}>{desc}</p>
-            )}
+            )} */}
+            
             {/* publish button */}
             {updateMode && (
                 <button

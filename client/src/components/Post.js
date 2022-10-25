@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import JoditEditor from 'jodit-react';
 import { BsBookmarkHeart } from 'react-icons/bs'
 import { MdHideSource } from 'react-icons/md'
 import { CgOptions } from 'react-icons/cg'
@@ -36,6 +37,15 @@ const Post = ({post}) => {
     post.profilePic = 'user_profile.png'
   }
   const [ postUser, setPostUser ] = useState('')
+  const editor = useRef(null)
+  const configReadOnly = useMemo(() => (
+		{
+      readonly: true,
+      toolbar: false,
+    })
+    , []
+	)
+
   useEffect(() => {
     try {
           const fetchPostUser = async () => {
@@ -72,7 +82,12 @@ const Post = ({post}) => {
             <div className= {styles.firstHalf_body}>
               <Link to={`/post/${post._id}`}>
                 <h2 className={styles.post_title}>{post.title}</h2>
-                <p className={styles.post_desc}>{post.desc.slice(0,230) + '..'}</p>
+                {/* <JoditEditor
+                  ref={editor}
+                  value={post.desc.slice(0,230) + '..'}
+                  config={configReadOnly}
+                /> */}
+                <p className={styles.post_desc}>{post.desc.slice(0,230)+ '..'}</p>
               </Link>
               {/* body footer */}
               <div className={styles.body_footer}>

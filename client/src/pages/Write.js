@@ -1,4 +1,5 @@
-import React, { useState , useContext } from 'react'
+import React, { useState, useMemo, useRef, useContext } from 'react'
+import JoditEditor from 'jodit-react'
 import { BsCloudUpload } from 'react-icons/bs'
 import Header from '../components/Header.js'
 import { NoteContext } from '../context/NoteContext.js'
@@ -14,9 +15,21 @@ const Write = () => {
     inputCover: 'flex flex-col p-4 w-full',
     postPicCover: 'flex justify-center items-center mb-8',
     file: 'w-10/12 rounded-sm',
-    inputTitle: 'capitalize font-bold text-3xl p-2 outline-0',
+    inputTitle: 'capitalize font-bold text-3xl p-2 outline-0 mb-4',
     inputDesc: 'p-2 text-base mt-4 outline-0',
   }
+  const editor = useRef(null)
+  const config = useMemo(() => (
+		{
+      readonly: false,
+      placeholder: 'Start writing your blog..',
+      colorPickerDefaultTab: 'Text',
+      spellcheck: true,
+      minHeight: 600,
+    })
+    , []
+	)
+
   const [title, setTitle] = useState('')
   const [desc, setDesc] = useState('')
   const [postPic, setPostPic] = useState('')
@@ -64,6 +77,15 @@ const Write = () => {
               required
               value={title}
               onChange={(e) => {setTitle(e.target.value)}}/>
+
+            <JoditEditor
+			        ref={editor}
+			        value={desc}
+			        config={config}
+			        onChange={newContent => setDesc(newContent)}
+              className={styles.inputDesc}
+            />
+            {/* @dev::: ⚠Obsolete Code Below
             <textarea
               type='text'
               className={styles.inputDesc}
@@ -71,7 +93,7 @@ const Write = () => {
               rows= '25'
               required
               value={desc}
-              onChange={(e) => {setDesc(e.target.value)}}/>
+              onChange={(e) => {setDesc(e.target.value)}}/> */}
           </div>
         </div>
       </div>

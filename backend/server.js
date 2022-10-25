@@ -23,7 +23,7 @@ app.use('/postImage',express.static('assets/postPic'))
 app.get('/', (req, res) => {
     res.status(200).send("hi! it's working")
 })
-
+    
 /* below for uploading ProfilePic to server */
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
