@@ -3,7 +3,7 @@ import User from '../mongoDB/models/User.js'
 import Token from '../mongoDB/models/Token.js'
 
 const router = express.Router()
-
+/* nodemailer checks */
 router.get(`/:userId/verify/:token`, async (req, res) => {
     const userId = req.params.userId
     const token = req.params.token

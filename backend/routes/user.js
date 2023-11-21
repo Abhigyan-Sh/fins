@@ -1,6 +1,7 @@
 import express from 'express'
 import User from '../mongoDB/models/User.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const router = express.Router()
 
@@ -12,7 +13,8 @@ router.get('/:id', async (req, res) => {
         const {password, ...others} = user._doc
         res.status(200).json(others)
     } catch (err) {
-        res.statusCode(500)
+        // res.statusCode(500)
+        console.log(err)
     }
 })
 
@@ -25,23 +27,25 @@ router.patch('/:id', async (req, res) => {
             /* //@dev::: user could update their username, password and profilePic Only
             for this i will place joi later (since someone could inject 
             code for fields which don't exist and update them too) */
-
+            
             // encrypt password
             if (req.body.password) {
                 const salt = await bcrypt.genSalt(10)
                 const hashedPassword = await bcrypt.hash(req.body.password, salt)
                 req.body.password = hashedPassword
             }
-
-            const user = await User.findByIdAndUpdate({_id: req.params.id}, req.body)
+            const {userId, ...userObj} = req.body
+            const user = await User.findByIdAndUpdate({_id: req.params.id}, userObj)
             const {password, ...others} = user._doc
-            res.status(201).json(others)
+            const signed_user = jwt.sign(others, process.env.ACCESS_TOKEN, {expiresIn: "1d"})
+            console.log(signed_user)
+            res.status(201).json(signed_user)
             /* //@dev::: will send a boolean instead and frontend will detect true as value 
             sent in response, on which it will NavigateTo login page since i 
             want to generate and save a new jwt in browserStorage so that now when 
             user refreshes their page they see themselves as updatedUser n not old user */
         } catch (err) {
-        res.statusCode(500)
+            res.status(500).send('Internal Server Error')
         }
     } else {
         res.status(403).send("you can't update someone else's account")

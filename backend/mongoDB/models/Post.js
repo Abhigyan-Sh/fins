@@ -6,11 +6,12 @@ const PostSchema = new Schema(
       username: {
         type: String,
         required: true,
-        unique: true,
+        unique: false,
       },
-      profilePic: {
+      userId: {
         type: String,
-        required: false,
+        required: true,
+        unique: false,
       },
       postPic: {
         type: String,
